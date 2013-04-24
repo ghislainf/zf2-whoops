@@ -1,0 +1,37 @@
+{
+    "name": "ghislainf/zf2-whoops",
+    "description": "ZF2 module, integrated whoops",
+    "version": "1.0.0",
+    "type": "module",
+    "license": "MIT",
+    "tags": [
+        "zend framework",
+        "zf2",
+        "whoops"
+    ],
+    "homepage": "https://github.com/ghislainf/zf2-whoops",
+    "authors": [
+        {
+            "name": "Ghislain de Fontenay",
+            "email": "ghislain.de.fontenay@gmail.com"
+        },
+        {
+            "name": "Filipe Dobreira",
+            "homepage": "https://github.com/filp",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "zendframework/zendframework": "2.*",
+        "filp/whoops": "1.*"
+    },
+    "autoload": {
+    	"psr-0": {
+            "zf2-whoops": "src/"
+    	},
+        "classmap": [
+            "./Module.php"
+        ]
+    }
+}
