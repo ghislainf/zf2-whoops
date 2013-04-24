@@ -1,11 +1,4 @@
 <?php
-/**
- * ZF2 Integration for Whoops
- * @author Balázs Németh <zsilbi@zsilbi.hu>
- *
- * Example controller configuration
- */
-
 return array(
     'view_manager' => array(
     	'editor' => 'sublime',

@@ -1,21 +1,4 @@
 <?php
-/**
- * ZF2 Integration for Whoops
- * @author Balázs Németh <zsilbi@zsilbi.hu>
- *
- * The Whoops directory should be added as a module to ZF2 (/vendor/Whoops)
- *
- * Whoops must be added as the first module
- * For example:
- *   'modules' => array(
- *       'Whoops',
- *       'Application',
- *   ),
- *
- * This file should be moved next to Whoops/Run.php (/vendor/Whoops/Module.php)
- *
- */
-
 namespace Zf2Whoops;
 
 use Whoops\Run;
