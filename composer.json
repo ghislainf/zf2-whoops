@@ -19,6 +19,10 @@
             "name": "Filipe Dobreira",
             "homepage": "https://github.com/filp",
             "role": "Developer"
+        },
+        {
+            "name": "Balázs Németh",
+            "email": "zsilbi@zsilbi.hu"
         }
     ],
     "require": {
