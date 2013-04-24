@@ -1,6 +1,6 @@
 {
     "name": "ghislainf/zf2-whoops",
-    "description": "ZF2 module, integrated whoops",
+    "description": "PHP whoops error on ZF2 framework",
     "version": "1.0.0",
     "type": "module",
     "license": "MIT",
@@ -13,12 +13,12 @@
     "authors": [
         {
             "name": "Ghislain de Fontenay",
-            "email": "ghislain.de.fontenay@gmail.com"
+            "homepage": "http://www.ghislainf.me/",
+            "role": "Developer"
         },
         {
             "name": "Filipe Dobreira",
-            "homepage": "https://github.com/filp",
-            "role": "Developer"
+            "homepage": "https://github.com/filp"
         },
         {
             "name": "Balázs Németh",
