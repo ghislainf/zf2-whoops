@@ -1,5 +1,13 @@
 ZF2 module, integrated [whoops](https://github.com/filp/whoops)
 
+-----
+
+![Whoops!](http://i.imgur.com/xiZ1tUU.png)
+
+**whoops** is an error handler base/framework for PHP. Out-of-the-box, it provides a pretty
+error interface that helps you debug your web projects, but at heart it's a simple yet
+powerful stacked error handling system.
+
 ## Module installation
   1. `cd my/project/directory`
   2. create a `composer.json` file with following contents:
