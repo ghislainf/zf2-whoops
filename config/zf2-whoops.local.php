@@ -8,6 +8,9 @@ return array(
             'display' => true,
             'ajax_only' => true,
             'show_trace' => true
+        ),
+        'whoops_no_catch' => array(
+            'BjyAuthorize\Exception\UnAuthorizedException'
         )
     ),
 );

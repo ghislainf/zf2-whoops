@@ -76,6 +76,14 @@ class Module
 
                 case Application::ERROR_EXCEPTION:
                 default:
+                    $config = $e->getApplication()->getServiceManager()->get('Config');
+                    if (isset($config['view_manager']['whoops_no_catch'])
+                        && in_array(get_class($e->getParam('exception')), $config['view_manager']['whoops_no_catch'])
+                    ) {
+                        // No catch this exception
+                        return;
+                    }
+
                     $response = $e->getResponse();
                     if (!$response || $response->getStatusCode() === 200) {
                         header('HTTP/1.0 500 Internal Server Error', true, 500);
