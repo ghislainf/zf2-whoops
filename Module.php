@@ -2,6 +2,7 @@
 namespace Zf2Whoops;
 
 use Zend\EventManager\EventInterface;
+use Zend\ModuleManager\Feature\BootstrapListenerInterface;
 use Zend\Console\Request as ConsoleRequest;
 use Zend\Stdlib\ResponseInterface as Response;
 use Zend\Mvc\Application;
@@ -10,12 +11,17 @@ use Whoops\Run;
 use Whoops\Handler\JsonResponseHandler;
 use Whoops\Handler\PrettyPageHandler;
 
-class Module
+class Module implements BootstrapListenerInterface
 {
     /**
      * @var Whoops\Run
      */
     protected $run = null;
+
+    /**
+     * @var array
+     */
+    protected $noCatchExceptions = array();
 
     /**
      * {@inheritDoc}
@@ -34,22 +40,26 @@ class Module
 
         // set up whoops config
         $prettyPageHandler = new PrettyPageHandler();
-        $jsonHandler = new JsonResponseHandler();
 
         if (isset($config['editor'])) {
             $prettyPageHandler->setEditor($config['editor']);
         }
 
-        if (!empty($config['json_exceptions']['show_trace'])) {
-            $jsonHandler->addTraceToOutput(true);
-        }
-
-        if (!empty($config['json_exceptions']['ajax_only'])) {
-            $jsonHandler->onlyForAjaxRequests(true);
-        }
-
         if (!empty($config['json_exceptions']['display'])) {
+            $jsonHandler = new JsonResponseHandler();
+
+            if (!empty($config['json_exceptions']['show_trace'])) {
+                $jsonHandler->addTraceToOutput(true);
+            }
+            if (!empty($config['json_exceptions']['ajax_only'])) {
+                $jsonHandler->onlyForAjaxRequests(true);
+            }
+
             $this->run->pushHandler($jsonHandler);
+        }
+
+        if (!empty($config['whoops_no_catch'])) {
+            $this->noCatchExceptions = $config['whoops_no_catch'];
         }
 
         $this->run->pushHandler($prettyPageHandler);
@@ -76,10 +86,7 @@ class Module
 
                 case Application::ERROR_EXCEPTION:
                 default:
-                    $config = $e->getApplication()->getServiceManager()->get('Config');
-                    if (isset($config['view_manager']['whoops_no_catch'])
-                        && in_array(get_class($e->getParam('exception')), $config['view_manager']['whoops_no_catch'])
-                    ) {
+                    if (in_array(get_class($e->getParam('exception')), $this->noCatchExceptions)) {
                         // No catch this exception
                         return;
                     }
