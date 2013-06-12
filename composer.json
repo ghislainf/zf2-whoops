@@ -29,5 +29,13 @@
         "php": ">=5.3.3",
         "zendframework/zendframework": "2.*",
         "filp/whoops": "1.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "zf2-whoops": "src/"
+        },
+        "classmap": [
+            "./Module.php"
+        ]
     }
 }
