@@ -1,10 +1,10 @@
-ZF2 module, integrated [whoops](https://github.com/filp/whoops)
+ZF2 module, integrated [Whoops](https://github.com/filp/whoops) and support for [Zf2 Logger](https://www.google.ee/search?q=zf2+logger&oq=zf2+Logger)
 
 -----
 
 ![Whoops!](http://i.imgur.com/xiZ1tUU.png)
 
-**whoops** is an error handler base/framework for PHP. Out-of-the-box, it provides a pretty
+**Whoops** is an error handler base/framework for PHP. Out-of-the-box, it provides a pretty
 error interface that helps you debug your web projects, but at heart it's a simple yet
 powerful stacked error handling system.
 
