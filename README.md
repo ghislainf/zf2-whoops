@@ -15,7 +15,7 @@ powerful stacked error handling system.
      ```json
      {
          "require": {
-             "ghislainf/zf2-whoops": "dev-master"
+             "inditel/zf2-whoops": "dev-master"
          }
      }
      ```
@@ -27,5 +27,5 @@ powerful stacked error handling system.
      ```php
      'Zf2Whoops',   // must be added as the first module
      ```
-  6. copy `config/zf2-whoops.local.php` in `my/project/directory/config/autoload`
-  7. edit `my/project/directory/config/autoload/zf2-whoops.local.php`
+  6. copy `config/zf2-whoops.config.php` in `my/project/directory/config/autoload`
+  7. edit `my/project/directory/config/autoload/zf2-whoops.config.php`
