@@ -1,16 +1,22 @@
 {
-    "name": "ghislainf/zf2-whoops",
-    "description": "PHP whoops error on ZF2 framework",
+    "name": "inditel/zf2-whoops",
+    "description": "PHP whoops error manager on ZF2 framework with Logger support",
     "version": "1.0.0",
     "type": "module",
     "license": "MIT",
     "tags": [
         "zend framework",
         "zf2",
-        "whoops"
+        "whoops",
+        "error logger",
+        "logger"
     ],
-    "homepage": "https://github.com/ghislainf/zf2-whoops",
+    "homepage": "https://github.com/inditel/zf2-whoops",
     "authors": [
+        {
+            "name": "Oliver Leisalu",
+            "email": "oliver@inditel.ee"
+        },
         {
             "name": "Ghislain de Fontenay",
             "homepage": "http://www.ghislainf.me/",

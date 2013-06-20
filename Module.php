@@ -1,105 +1,53 @@
 <?php
 namespace Zf2Whoops;
 
-use Zend\EventManager\EventInterface;
-use Zend\ModuleManager\Feature\BootstrapListenerInterface;
-use Zend\Console\Request as ConsoleRequest;
-use Zend\Stdlib\ResponseInterface as Response;
-use Zend\Mvc\Application;
-use Zend\Mvc\MvcEvent;
+
 use Whoops\Run;
-use Whoops\Handler\JsonResponseHandler;
-use Whoops\Handler\PrettyPageHandler;
+use Zend\Console\Request as ConsoleRequest;
+use Zend\EventManager\EventManagerInterface;
+use Zend\Log\Logger;
+use Zend\Mvc\MvcEvent;
+use Zend\ServiceManager\ServiceManager;
 
-class Module implements BootstrapListenerInterface
+class Module
 {
-    /**
-     * @var Whoops\Run
-     */
-    protected $run = null;
 
     /**
-     * @var array
+     * @param MvcEvent $e
+     * @return array|void
      */
-    protected $noCatchExceptions = array();
-
-    /**
-     * {@inheritDoc}
-     */
-    public function onBootstrap(EventInterface $e)
+    public function onBootstrap(MvcEvent $e)
     {
-        $config  = $e->getTarget()->getServiceManager()->get('Config');
-        $config  = isset($config['view_manager']) ? $config['view_manager'] : array();
 
-        if ($e->getRequest() instanceof ConsoleRequest || empty($config['display_exceptions'])) {
+        if (PHP_SAPI === 'cli') {
             return;
         }
 
-        $this->run = new Run();
-        $this->run->register();
-
-        // set up whoops config
-        $prettyPageHandler = new PrettyPageHandler();
-
-        if (isset($config['editor'])) {
-            $prettyPageHandler->setEditor($config['editor']);
+        if ($e->getRequest() instanceof ConsoleRequest) {
+            return;
         }
 
-        if (!empty($config['json_exceptions']['display'])) {
-            $jsonHandler = new JsonResponseHandler();
+        /** @var ServiceManager $serviceManager */
+        $serviceManager = $e->getTarget()->getServiceManager();
+        /** @var WhoopsInit $handler */
+        $handler = $serviceManager->get('Whoops');
+        $handler->register();
 
-            if (!empty($config['json_exceptions']['show_trace'])) {
-                $jsonHandler->addTraceToOutput(true);
-            }
-            if (!empty($config['json_exceptions']['ajax_only'])) {
-                $jsonHandler->onlyForAjaxRequests(true);
-            }
-
-            $this->run->pushHandler($jsonHandler);
-        }
-
-        if (!empty($config['whoops_no_catch'])) {
-            $this->noCatchExceptions = $config['whoops_no_catch'];
-        }
-
-        $this->run->pushHandler($prettyPageHandler);
-
+        /** @var EventManagerInterface $eventManager */
         $eventManager = $e->getTarget()->getEventManager();
-        $eventManager->attach(MvcEvent::EVENT_RENDER_ERROR, array($this, 'prepareException'));
-        $eventManager->attach(MvcEvent::EVENT_DISPATCH_ERROR, array($this, 'prepareException'));
+        $eventManager->attach(MvcEvent::EVENT_RENDER_ERROR, array($handler->getExceptionHandler(), 'exceptionHandler'));
+        $eventManager->attach(MvcEvent::EVENT_DISPATCH_ERROR, array($handler->getExceptionHandler(), 'exceptionHandler'));
     }
 
-    /**
-     * Whoops handle exceptions
-     * @param Zend\Mvc\MvcEvent $e
-     */
-    public function prepareException(MvcEvent $e)
+    public function getAutoloaderConfig()
     {
-        $error = $e->getError();
-        if (!empty($error) && !$e->getResult() instanceof Response) {
-            switch ($error) {
-                case Application::ERROR_CONTROLLER_NOT_FOUND:
-                case Application::ERROR_CONTROLLER_INVALID:
-                case Application::ERROR_ROUTER_NO_MATCH:
-                    // Specifically not handling these
-                    return;
-
-                case Application::ERROR_EXCEPTION:
-                default:
-                    if (in_array(get_class($e->getParam('exception')), $this->noCatchExceptions)) {
-                        // No catch this exception
-                        return;
-                    }
-
-                    $response = $e->getResponse();
-                    if (!$response || $response->getStatusCode() === 200) {
-                        header('HTTP/1.0 500 Internal Server Error', true, 500);
-                    }
-
-                    ob_clean();
-                    $this->run->handleException($e->getParam('exception'));
-                    break;
-            }
-        }
+        return array(
+            'Zend\Loader\StandardAutoloader' => array(
+                'namespaces' => array(
+                    __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__,
+                ),
+            ),
+        );
     }
+
 }
