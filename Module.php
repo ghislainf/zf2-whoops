@@ -1,5 +1,5 @@
 <?php
-namespace Zf2Whoops2;
+namespace Zf2Whoops;
 
 
 use Whoops\Run;
