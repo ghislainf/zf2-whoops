@@ -19,6 +19,10 @@ class Module
     public function onBootstrap(MvcEvent $e)
     {
 
+        if (PHP_SAPI === 'cli') {
+            return;
+        }
+
         if ($e->getRequest() instanceof ConsoleRequest) {
             return;
         }
