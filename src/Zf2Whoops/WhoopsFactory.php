@@ -28,13 +28,12 @@ class WhoopsFactory implements FactoryInterface
         $viewManagerConfig = $config['view_manager'];
 
         $run = new Run();
-        $logger = null;
-        if (isset($whoopsConfig['logger'])) {
-            $logger = $serviceLocator->get($whoopsConfig['logger']);
-        }
 
         $exceptionHandler = new ExceptionHandler();
-        $exceptionHandler->setLogger($logger);
+
+        if (isset($whoopsConfig['logger']) && $whoopsConfig['logger']) {
+            $exceptionHandler->setLogger($serviceLocator->get($whoopsConfig['logger']));
+        }
 
         $whoops = new WhoopsInit($run, $exceptionHandler);
         $whoops->initFromConfig($whoopsConfig, $viewManagerConfig);
