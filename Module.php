@@ -42,7 +42,31 @@ class Module implements BootstrapListenerInterface
         $prettyPageHandler = new PrettyPageHandler();
 
         if (isset($config['editor'])) {
-            $prettyPageHandler->setEditor($config['editor']);
+
+            if ($config['editor'] == 'phpStorm') {
+                $localPath = null;
+                if (isset($config['local_path'])) {
+                    $localPath = $config['local_path'];
+                }
+
+                $prettyPageHandler->setEditor(
+                    function ($file, $line) use ($localPath) {
+
+                        if ($localPath) {
+                            // if your development server is not local it's good to map remote files to local
+                            $translations = array('^' . __DIR__ => $config['editor_path']); // change to your path
+
+                            foreach ($translations as $from => $to) {
+                                $file = preg_replace('#' . $from . '#', $to, $file, 1);
+                            }
+                        }
+
+                        return "pstorm://$file:$line";
+                    }
+                );
+            } else {
+                $prettyPageHandler->setEditor($config['editor']);
+            }
         }
 
         if (!empty($config['json_exceptions']['display'])) {
