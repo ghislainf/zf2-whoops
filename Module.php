@@ -54,9 +54,9 @@ class Module implements BootstrapListenerInterface
 
                         if ($localPath) {
                             // if your development server is not local it's good to map remote files to local
-                            $translations = array('^' . __DIR__ => $config['editor_path']); // change to your path
+                            //$translations = array('^' . __DIR__ => $config['editor_path']); // change to your path
 
-                            foreach ($translations as $from => $to) {
+                            foreach ($localPath as $from => $to) {
                                 $file = preg_replace('#' . $from . '#', $to, $file, 1);
                             }
                         }
