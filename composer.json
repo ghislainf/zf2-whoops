@@ -27,7 +27,10 @@
     ],
     "require": {
         "php": ">=5.3.3",
-        "zendframework/zendframework": "2.*",
+        "zendframework/zend-eventmanager": "*",
+        "zendframework/zend-config": "*",
+        "zendframework/zend-mvc": "*",
+        "zendframework/zend-console": "*",
         "filp/whoops": "1.*"
     },
     "autoload": {
