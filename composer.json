@@ -31,7 +31,7 @@
         "zendframework/zend-config": "*",
         "zendframework/zend-mvc": "*",
         "zendframework/zend-console": "*",
-        "filp/whoops": "1.*"
+        "filp/whoops": "2.*"
     },
     "autoload": {
         "psr-0": {
