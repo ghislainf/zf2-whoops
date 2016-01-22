@@ -14,7 +14,7 @@ use Whoops\Handler\PrettyPageHandler;
 class Module implements BootstrapListenerInterface
 {
     /**
-     * @var Whoops\Run
+     * @var Run
      */
     protected $run = null;
 
@@ -103,7 +103,7 @@ class Module implements BootstrapListenerInterface
 
     /**
      * Whoops handle exceptions
-     * @param Zend\Mvc\MvcEvent $e
+     * @param MvcEvent $e
      */
     public function prepareException(MvcEvent $e)
     {
