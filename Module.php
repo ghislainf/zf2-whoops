@@ -128,7 +128,9 @@ class Module implements BootstrapListenerInterface
                         header('HTTP/1.0 500 Internal Server Error', true, 500);
                     }
 
-                    ob_clean();
+                    if (ob_get_length()) {
+                        ob_clean();
+                    }
                     $this->run->handleException($e->getParam('exception'));
                     break;
             }
