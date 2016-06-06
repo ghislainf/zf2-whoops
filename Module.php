@@ -10,6 +10,7 @@ use Zend\Mvc\MvcEvent;
 use Whoops\Run;
 use Whoops\Handler\JsonResponseHandler;
 use Whoops\Handler\PrettyPageHandler;
+use Zend\Http\PhpEnvironment\Request;
 
 class Module implements BootstrapListenerInterface
 {
@@ -38,10 +39,10 @@ class Module implements BootstrapListenerInterface
 
         $this->run = new Run();
 
+
         if( $request instanceof Request && $request->isXmlHttpRequest() )
         {
             $jsonHandler = new JsonResponseHandler();
-            $jsonHandler->onlyForAjaxRequests(true);
 
             if (!empty($config['json_exceptions']['show_trace'])) {
                 $jsonHandler->addTraceToOutput(true);
