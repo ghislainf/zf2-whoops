@@ -65,7 +65,7 @@ class Module implements BootstrapListenerInterface
                     }
 
                     $prettyPageHandler->setEditor(
-                        function ( $file, $line ) use ( $localPath )
+                        function ( $file, $line ) use ( $localPath, $config )
                         {
                             if( $localPath )
                             {
